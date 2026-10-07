@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stripsim"
+version = "0.1.0"
+description = "Lateral-flow assay simulator: binding kinetics to rendered phone photos to limit of detection in concentration units"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Abdul Haleem"}]
+requires-python = ">=3.9"
+dependencies = ["numpy", "pillow"]
+keywords = ["lateral-flow", "rapid-test", "point-of-care", "diagnostics", "computer-vision", "biomedical-engineering", "simulation"]
+
+[project.optional-dependencies]
+examples = ["matplotlib"]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/hxlvvm/stripsim"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
