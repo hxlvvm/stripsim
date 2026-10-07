@@ -1,23 +1,4 @@
-"""1D model of a sandwich lateral-flow assay: capillary flow, binding, and capture at the test and control lines.
-
-Following the structure of Qian & Bau (Anal Biochem 322:89, 2003, doi:10.1016/j.ab.2003.07.011):
-- The liquid front advances by Lucas-Washburn wicking, x_f = sqrt(D_w t); behind it the liquid moves with the
-  uniform velocity u = dx_f/dt (u stays at its end value once the front reaches the absorbent pad).
-- Mobile species (concentrations in nM): analyte A (supplied continuously by the sample), gold-labelled
-  reporter P (released from the conjugate pad), and reporter-analyte complex PA.
-  A + P <-> PA everywhere in the liquid.
-- Test line, immobilised capture antibody R (sandwich):  R + PA <-> RPA,  R + A <-> RA,  RA + P <-> RPA,
-  plus weak non-specific sticking of reporter, R + P -> RP (what makes blank strips not perfectly blank).
-- Control line, anti-species antibody C:  C + P <-> CP,  C + PA <-> CPA.
-Visible signal = captured reporter: RPA + RP at the test line, CP + CPA at the control line.
-
-At very high analyte concentration, free analyte saturates both R and P before sandwiches can form, so the
-test line fades again: the high-dose hook effect emerges from the kinetics without being imposed.
-
-Transport is first-order upwind (method of lines). Each binding reaction is advanced over a time step with
-the exact solution of second-order kinetics, so the scheme is stable at any concentration; the slow
-dissociation is added explicitly. Parameter values are literature-typical, not those of a specific assay.
-"""
+"""1D lateral-flow sandwich assay: wicking, binding and capture (after Qian & Bau 2003)."""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -29,7 +10,7 @@ import numpy as np
 class Strip:
     length: float = 30.0          # mm, sample pad to absorbent pad
     dx: float = 0.1               # mm
-    d_wick: float = 6.0           # Lucas-Washburn coefficient (mm^2/s): front at 30 mm after 150 s
+    d_wick: float = 6.0
     conj: tuple = (2.0, 6.0)      # conjugate pad (mm)
     test: tuple = (17.5, 18.5)    # test line (mm)
     control: tuple = (22.5, 23.5)  # control line (mm)
@@ -38,17 +19,17 @@ class Strip:
     c_tot: float = 500.0          # anti-species capacity at the control line (nM equivalent)
     k_on: float = 1e-3            # nM^-1 s^-1  (1e6 M^-1 s^-1)
     k_off: float = 1e-4           # s^-1
-    k_nsb: float = 2e-6           # non-specific reporter capture at the test line (nM^-1 s^-1)
+    k_nsb: float = 2e-6
 
 
 @dataclass
 class AssayResult:
     t: np.ndarray                 # (n_t,) s
-    test: np.ndarray              # (n_t,) captured reporter at the test line (nM, line average)
+    test: np.ndarray
     control: np.ndarray           # (n_t,) captured reporter at the control line
     front: np.ndarray             # (n_t,) liquid-front position (mm)
     x: np.ndarray                 # (n_x,) cell centres (mm)
-    gold: np.ndarray              # (n_t, n_x) total reporter (bound + mobile) per cell, for rendering
+    gold: np.ndarray
     strip: Strip = field(default_factory=Strip)
 
 

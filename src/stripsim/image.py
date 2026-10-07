@@ -1,16 +1,4 @@
-"""From captured gold to a phone photo: membrane optics, camera pipeline and cassette rendering.
-
-Optics. The nitrocellulose membrane is a diffuse scatterer; its reflectance follows Kubelka-Munk,
-    R_inf = 1 + K/S - sqrt((K/S)^2 + 2 K/S),   K/S = (K/S)_membrane + kappa * eps_c * gold,
-evaluated at three effective wavelengths for the camera's R, G, B channels (610, 540, 465 nm). Gold
-nanoparticles absorb through a plasmon band, modelled as a Lorentzian at 525 nm (FWHM 80 nm), so lines look
-red-purple. Wet membrane is slightly less reflective than dry.
-
-Camera. The scene is lit by an illuminant with a colour temperature, the camera's white balance corrects it
-imperfectly, and the image gets exposure error, vignetting, Poisson-Gaussian sensor noise, sRGB gamma,
-defocus blur, a small rotation and offset, and JPEG compression. Every nuisance is drawn from a `Conditions`
-distribution with a seed, so images are reproducible.
-"""
+"""Membrane optics, camera pipeline and cassette rendering."""
 from __future__ import annotations
 
 import io

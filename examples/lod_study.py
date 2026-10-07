@@ -1,13 +1,4 @@
-"""Limit of detection, from the chemistry alone to a phone photo in bad light.
-
-For every concentration, 30 replicate tests are simulated with test-to-test chemistry variation (reporter load
-and capture capacity +/-10 %, non-specific binding +/-30 %). Each replicate is photographed under three imaging
-conditions (lab, typical phone, harsh) and read by two readers. The "ideal photometer" reads the captured gold
-at the test line directly, so its LoD is limited by the chemistry only.
-
-    python examples/lod_study.py
-writes assets/hook.png, strips.png, lod.png, develop.gif and prints the LoD table.
-"""
+"""Dose-response, rendered strips, LoD per reader and condition, development GIF."""
 import dataclasses
 from pathlib import Path
 

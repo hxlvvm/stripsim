@@ -1,9 +1,4 @@
-"""Strip readers and the limit of detection (LoD) in analyte-concentration units.
-
-Readers turn a photo into a score; a test is called positive when the score exceeds the limit of blank
-(LoB, the 95th percentile of blank scores). LoD95 is the concentration detected with 95 % probability,
-from a probit fit of detection rate against log concentration (in the spirit of CLSI EP17).
-"""
+"""Strip readers and limit of detection (LoB / probit LoD95)."""
 from __future__ import annotations
 
 from math import erf, sqrt

@@ -1,4 +1,4 @@
-"""Checks of the assay physics, the optics and the readers."""
+"""Tests of the assay physics, optics and readers."""
 import numpy as np
 import pytest
 
